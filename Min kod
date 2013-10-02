@@ -1,0 +1,97 @@
+Uppgift-5
+=========
+
+Uppgift 5 - For and While
+//min kod
+package 
+{
+	import flash.display.InteractiveObject;
+	import flash.display.Sprite;
+	import flash.events.Event;
+	import flash.events.MouseEvent;
+	import flash.events.TextEvent;
+	import flash.text.TextField;
+	
+	/**
+	 * ...
+	 * @author Leo
+	 */
+	public class Main extends Sprite 
+	{	
+		// Variables
+		public var bobHp:int = 100;
+		public var henrikHp:int = 100;
+		public var bobDmg:int;
+		public var henrikDmg:int;
+		public var round:int;
+		public var bobStr:int = 20;
+		public var henrikStr:int = 22;
+		public var t:TextField = new TextField();
+		public var statText:TextField = new TextField();
+		
+		public function Main():void 
+		{
+			if (stage) init();
+			else addEventListener(Event.ADDED_TO_STAGE, init);
+		}
+		
+		private function init(e:Event = null):void 
+		{
+			removeEventListener(Event.ADDED_TO_STAGE, init);
+			// entry point
+			// Combat Log Textfield
+			addChild(t);
+			t.width = 500
+			t.height = 1000
+			t.wordWrap = true
+			
+			// Stats TextField
+			addChild(statText);
+			statText.x = 400;
+			statText.height = 50;
+			statText.width = 200;
+			statText.border = true;
+			statText.text = "Henrik´s strength = " + henrikStr + "\n" + "Bob´s strength = " + bobStr + "\n";
+			statText.backgroundColor = 0x00FFFF;
+			statText.background = true;
+			
+			// While loop
+			while (bobHp >  0 && henrikHp > 0)
+			{
+				round ++;
+				bobDmg = (Math.random()) * bobStr + 2;
+				henrikDmg = (Math.random()) * henrikStr + 2;
+				henrikHp -= bobDmg;
+				if (henrikHp <= 0)
+				{
+					henrikHp = 0;
+				}
+				bobHp -= henrikDmg;
+				if (bobHp <= 0)
+				{
+					bobHp = 0;
+				}
+				t.appendText ("Round " + round + " :\n");
+				t.appendText ("Bob deals " + bobDmg + " damage to Henrik, leaving him at " + henrikHp + " health\n");
+				t.appendText ("Henrik deals " + henrikDmg + " damage to Bob, leaving him at " + bobHp + " health\n");
+				t.appendText ("\n");
+				
+			}
+			// Winner texts
+			if (bobHp <= 0 && henrikHp >= 0)
+			{
+				t.appendText ("BOB IS DEAD! HENRIK IS THE WINNER!")
+			}
+			if (henrikHp <= 0 && bobHp >= 0)
+			{
+				t.appendText ("HENRIK IS DEAD! BOB IS THE WINNER!")
+			}	
+			if (henrikHp <= 0 && bobHp <= 0)
+			{
+				t.appendText ("HENRIK AND BOB ARE BOTH DEAD!")
+				
+			}	
+		}
+	}
+	
+}
